@@ -19,10 +19,10 @@ public class MotorController {
             System.out.println("Function: " +
                     "\n 1. List Motor:" +
                     "\n 2. Add Motor:" +
-                    "\n 3. Delete Motor:" +
-                    "\n 4. Find Motor:" +
-                    "\n 5. Update Motor:" +
-                    "\n 5. Return main menu:"
+                    "\n 3. Find Motor:" +
+                    "\n 4. Update Motor:" +
+                    "\n 5. Delete Motor:" +
+                    "\n 6. Return main menu:"
             );
             System.out.println("Chose function!");
             int choice = Integer.parseInt(sc.nextLine());
@@ -47,9 +47,9 @@ public class MotorController {
                     System.out.println("Enter the control plate to search:");
                     int controlPlate = Integer.parseInt(sc.nextLine());
                     Motor motorFind = motorService.findById(controlPlate);
-                    if(motorFind != null){
+                    if (motorFind != null) {
                         System.out.println("Found!" + motorFind);
-                    }else{
+                    } else {
                         System.out.println("Not found!" + controlPlate);
                     }
                     break;
@@ -58,26 +58,26 @@ public class MotorController {
                     System.out.println("Update motor:");
                     System.out.println("Enter the control plate to update:");
                     int controlPlate2 = Integer.parseInt(sc.nextLine());
-                    Motor  motorUpdate = MotorView.inputDataToUpdate();
-                    boolean isUpdateSuccess = motorService.update(controlPlate2, motorUpdate);
-                    if (isUpdateSuccess) {
+                    Motor motorUpdate = motorService.findById(controlPlate2);
+                    if (motorUpdate != null) {
+                        System.out.println(MotorView.inputDataToUpdate());
                         System.out.println("Updated successfully!");
-                    }else{
-                        System.out.println("Update unsuccessfully!");
+                    } else {
+                        System.out.println("Updated unsuccessfully!");
                     }
                     break;
 
-                    case 5:
-                        System.out.println("Delete motor:");
-                        System.out.println("Enter the control plate to delete:");
-                        int controlPlate3 = Integer.parseInt(sc.nextLine());
-                        Motor motorDeleteSuccess = motorService.delete(controlPlate3);
-                        if(motorDeleteSuccess != null){
-                            System.out.println("Deleted successfully!");
-                        }else{
-                            System.out.println("Deleted unsuccessfully!");
-                        }
-                        break;
+                case 5:
+                    System.out.println("Delete motor:");
+                    System.out.println("Enter the control plate to delete:");
+                    int controlPlate3 = Integer.parseInt(sc.nextLine());
+                    boolean motorDeleteSuccess = motorService.delete(controlPlate3);
+                    if (motorDeleteSuccess) {
+                        System.out.println("Deleted successfully!");
+                    } else {
+                        System.out.println("Deleted unsuccessfully!");
+                    }
+                    break;
             }
         }
 

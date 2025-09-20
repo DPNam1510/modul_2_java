@@ -16,8 +16,18 @@ public class MotorService implements IMotorService {
 
     @Override
     public boolean add(Motor motor) {
-        motorRepository.add(motor);
-        return true;
+        List<Motor> motorList = motorRepository.findAll();
+        for (int i = 0; i < motorList.size(); i++) {
+            if (motorList.get(i) != null) {
+                if (motorList.get(i).getControlPlate() == motor.getControlPlate()) {
+                    System.out.println("Motor already exists");
+                    return false;
+                }
+            } else {
+                break;
+            }
+        }
+        return motorRepository.add(motor);
     }
 
     @Override
@@ -26,12 +36,12 @@ public class MotorService implements IMotorService {
     }
 
     @Override
-    public boolean update(int  controlPlate, Motor motor) {
-        return motorRepository.update(controlPlate, motor);
+    public boolean update(int controlPlate) {
+        return motorRepository.update(controlPlate);
     }
 
     @Override
-    public Motor delete(int controlPlate) {
+    public boolean delete(int controlPlate) {
         return motorRepository.delete(controlPlate);
     }
 

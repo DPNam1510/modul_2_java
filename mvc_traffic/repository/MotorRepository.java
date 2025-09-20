@@ -1,61 +1,110 @@
 package mvc_traffic.repository;
 
 import mvc_traffic.entity.Motor;
+import mvc_traffic.util.ReadAndWriteFile;
+
+import java.io.IOException;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class MotorRepository implements IMotorRepository {
-    private static List<Motor> motors = new ArrayList<>();
 
-    static {
-        motors.add(new Motor(1234, "Honda", 2025, "Nam", 125));
-        motors.add(new Motor(5678, "Yamaha", 2020, "Vi", 110));
-    }
+    private final String MOTOR_FILE = "src/mvc_traffic/data/motor.csv";
 
     @Override
     public List<Motor> findAll() {
-        return motors;
+//        code đọc file
+        List<Motor> motorList = new LinkedList<>();
+        try {
+           List<String> stringList = ReadAndWriteFile.readListStringFromCSV(MOTOR_FILE);
+            String[] array = null;
+            for (int i = 0; i < stringList.size(); i++) {
+                array = stringList.get(i).split(",");
+                Motor motor = new Motor(Integer.parseInt(array[0])
+                        , array[1], Integer.parseInt(array[2])
+                        , array[3], Integer.parseInt(array[4]));
+                motorList.add(motor);
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading motor file");
+        }
+        return motorList;
     }
 
     @Override
     public boolean add(Motor motor) {
-       motors.add(motor);
-       return true;
+
+        List<String> motorList = new ArrayList<>();
+        motorList.add(motor.getInfoToCSV());
+        try {
+            ReadAndWriteFile.writeListStringToCSV(MOTOR_FILE, motorList, true);
+        } catch (IOException e) {
+            System.out.println("Write error!");
+            return false;
+        }
+        return true;
     }
 
 
     @Override
     public Motor findById(int controlPlate) {
-        for (Motor motor : motors) {
+        List<Motor> motorList = findAll();
+        for (Motor motor : motorList) {
             if (motor.getControlPlate() == controlPlate) {
-                return  motor;
+                return motor;
             }
         }
         return null;
     }
 
     @Override
-    public boolean update(int  controlPlate, Motor motor) {
-        for (int i = 0; i < motors.size(); i++) {
-            if (motors.get(i) == null) {
-                if (motors.get(i).getControlPlate() == motor.getControlPlate()) {
-                    motors.set(i, motor);
-                    return true;
-                }
+    public boolean update(int controlPlate) {
+        List<Motor> motorList = findAll();
+        boolean result = false;
+        for (int i = 0; i < motorList.size(); i++) {
+            if (motorList.get(i).getControlPlate() == controlPlate) {
+                motorList.set(i, motorList.get(i));
+                result = true;
+                break;
             }
         }
-        return false;
+        if (result) {
+            List<String> stringList = new ArrayList<>();
+            for (int i = 0; i < motorList.size(); i++) {
+                stringList.add(motorList.get(i).getInfoToCSV());
+            }
+            try {
+                ReadAndWriteFile.writeListStringToCSV(MOTOR_FILE, stringList, false);
+            } catch (IOException e) {
+                System.out.println("Write error!");
+            }
+        }
+        return result;
     }
 
     @Override
-    public Motor delete(int controlPlate) {
-        for (int i = 0; i < motors.size(); i++) {
-            if (controlPlate == motors.get(i).getControlPlate()) {
-                motors.remove(i);
-                return motors.get(i);
+    public boolean delete(int controlPlate) {
+        boolean result = false;
+        List<Motor> motorList = findAll();
+        for (int i = 0; i < motorList.size(); i++) {
+            if (motorList.get(i).getControlPlate() == controlPlate) {
+                motorList.remove(i);
+                result = true;
+                break;
+
             }
         }
-        return null;
+        List<String> stringList = new ArrayList<>();
+        for (int i = 0; i < motorList.size(); i++) {
+            stringList.add(motorList.get(i).getInfoToCSV());
+        }
+        try {
+            ReadAndWriteFile.writeListStringToCSV(MOTOR_FILE, stringList, false);
+        } catch (IOException e) {
+            System.out.println("Write error!");
+        }
+        return result;
     }
 }

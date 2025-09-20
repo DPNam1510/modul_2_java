@@ -1,47 +1,37 @@
 package mvc_traffic.entity;
 
-public class Truck {
-    private  int controlplate;
-    private String name;
-    private int date;
-    private String people;
-    private int payload;
-    public int   getControlplate() {
-        return controlplate;
+public class Truck extends Vehicle {
+    private int weight;
+
+    public Truck() {
     }
-    public void setControlplate(int controlplate) {
-        this.controlplate = controlplate;
+
+    public Truck(int controlPlate, String name, int date, String people, int weight) {
+        super(controlPlate, name, date, people);
+        this.weight = weight;
     }
-    public String getName() {
-        return name;
+
+    public int getWeight() {
+        return weight;
     }
-    public void setName(String name) {
-        this.name = name;
+
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
-    public int getDate() {
-        return date;
-    }
-    public void setDate(int date) {
-        this.date = date;
-    }
-    public String getPeople() {
-        return people;
-    }
-    public void setPeople(String people) {
-        this.people = people;
-    }
-    public int getPayload() {
-        return payload;
-    }
-    public void setPayload(int payload) {
-        this.payload = payload;
-    }
+@Override
+public String getInfoToCSV(){
+        return this.getControlPlate() + ","
+                + this.getName() + ","
+                + this.getDate() + ","
+                + this.getPeople() + ","
+                + this.getWeight();
+}
     @Override
     public String toString() {
-        return "Truck: ControlPlate: " + controlplate
-                + ", Name: " + name
-                + ", Date: " + date
-                + ", People: " + people
-                + ", Payload: " + payload;
+        return "Truck{"
+                + super.toString()
+                + "weight=" + weight +
+                "} ";
     }
+
 }

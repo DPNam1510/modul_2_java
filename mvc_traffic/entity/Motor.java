@@ -1,53 +1,24 @@
 package mvc_traffic.entity;
 
-public class Motor {
-    private int controlPlate;
-    private String name;
-    private int date;
-    private String people;
+public class Motor extends Vehicle  {
     private int power;
 
-public Motor(){
+    public Motor() {
 
-}
+    }
+
+    @Override
+    public String getInfoToCSV() {
+        return this.getControlPlate() + ","
+                + this.getName() + ","
+                + this.getDate() + ","
+                + this.getPeople() + ","
+                + this.getPower();
+    }
+
     public Motor(int controlPlate, String name, int date, String people, int power) {
-        this.controlPlate = controlPlate;
-        this.name = name;
-        this.date = date;
-        this.people = people;
+        super(controlPlate, name, date, people);
         this.power = power;
-    }
-
-    public int getControlPlate() {
-        return controlPlate;
-    }
-
-    public void setControlPlate(int controlPlate) {
-        this.controlPlate = controlPlate;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getDate() {
-        return date;
-    }
-
-    public void setDate(int date) {
-        this.date = date;
-    }
-
-    public String getPeople() {
-        return people;
-    }
-
-    public void setPeople(String people) {
-        this.people = people;
     }
 
     public int getPower() {
@@ -60,10 +31,8 @@ public Motor(){
 
     @Override
     public String toString() {
-        return "Motor: ControlPlate: " + controlPlate
-                + ", Name: " + name
-                + ", Date: " + date
-                + ", People: " + people
-                + ", Power: " + power;
+        return "Motor[" + super.toString()
+                + "power=" + power
+                + "]";
     }
 }

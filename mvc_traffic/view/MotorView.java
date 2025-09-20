@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MotorView {
-    private static Scanner sc = new Scanner(System.in);
+    private static final Scanner sc = new Scanner(System.in);
 
     public static void displayMotor(List<Motor> motorList) {
         for (Motor motor : motorList) {
@@ -26,24 +26,11 @@ public class MotorView {
         System.out.println("Date: ");
         int date = Integer.parseInt(sc.nextLine());
         System.out.println("People: ");
-        String address = sc.nextLine();
+        String people = sc.nextLine();
         System.out.println("Power: ");
         int power = Integer.parseInt(sc.nextLine());
-        return new Motor(controlPlate, name, date, address, power);
+        return new Motor(controlPlate, name, date, people, power);
     }
-//    public static Motor findMotor(){
-//        System.out.println("Input Control Plate find:");
-//        int controlPlate = Integer.parseInt(sc.nextLine());
-//        Motor motor = new Motor(controlPlate, null, 0, null, 0);
-//        return motor;
-//
-//    }
-//    public static Motor deleteMotor() {
-//        System.out.println("Input Control Plate delete:");
-//        int controlPlate = Integer.parseInt(sc.nextLine());
-//        Motor motor = new Motor(controlPlate, null, 0, null, 0);
-//        return motor;
-//    }
 
     public static Motor inputDataToUpdate() {
         System.out.println("Control Plate:");
